@@ -3529,68 +3529,224 @@ body.maximized {
     gap: 12px;
 }
 
-/* ── Landscape NP (fullscreen mode) ── */
+/* ── NP 전체화면 버튼 ── */
+.np-fs-btn {
+    position: absolute;
+    top: calc(var(--safe-top) + 12px);
+    right: 16px;
+    z-index: 20;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, transform .15s;
+}
+.np-fs-btn:hover { background: rgba(255,255,255,0.22); transform: scale(1.06); }
+.np-fs-btn.on svg { stroke: var(--acc); }
+
+/* ── Landscape NP 전체화면 모드 ── */
 @media (orientation: landscape) {
     #mob-nav { display: none !important; }
     #bar { bottom: 0; }
 
-    #np.fullscreen .np-art-area {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 46% !important;
-        height: 100% !important;
+    /* 전체화면 NP: 가로 모드 전용 레이아웃 */
+    #np.np-landscape {
+        flex-direction: row !important;
+    }
+
+    /* 왼쪽 영역: 앨범카드 + 곡정보 + 재생바 */
+    #np.np-landscape .np-left-col {
+        display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 40px 20px 100px 32px !important;
+        width: 46% !important;
+        height: 100% !important;
+        padding: 32px 24px 32px 36px !important;
+        position: relative !important;
+        z-index: 10 !important;
     }
 
-    #np.fullscreen .np-art-shell {
-        width: min(340px, 38vw, 72vh) !important;
+    /* 앨범 아트 영역 (빨간) */
+    #np.np-landscape .np-art-area {
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+    #np.np-landscape .np-art-area.has-lyrics {
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+    #np.np-landscape .np-art-shell {
+        width: min(280px, 36vw, 60vh) !important;
+    }
+    #np.np-landscape .np-art-area.has-lyrics .np-art-shell {
+        width: min(280px, 36vw, 60vh) !important;
     }
 
-    #np.fullscreen .np-lyrics-panel {
+    /* 가사 패널 숨기기 (오른쪽 가사 패널로 대체) */
+    #np.np-landscape .np-lyrics-panel { display: none !important; }
+
+    /* NP 패널 (노란+초록): 앨범 카드 아래 */
+    #np.np-landscape .np-panel {
+        position: static !important;
+        width: 100% !important;
+        background: none !important;
+        box-shadow: none !important;
+        padding: 12px 0 0 0 !important;
+        gap: 8px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* 제목/아티스트 표시 */
+    #np.np-landscape .np-title {
+        font-size: clamp(14px, 1.8vw, 20px) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    #np.np-landscape .np-ch {
+        font-size: clamp(11px, 1.2vw, 14px) !important;
+    }
+
+    /* 숨길 UI 요소들 */
+    #np.np-landscape .np-ctrl,
+    #np.np-landscape .np-bottom-row,
+    #np.np-landscape .np-act {
         display: none !important;
     }
 
-    #np.fullscreen .np-panel {
+    /* 재생바만 표시 (초록) */
+    #np.np-landscape .np-prog-wrap {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    /* 오른쪽 영역: 가사 (파란) */
+    #np.np-landscape .np-right-col {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        width: 54% !important;
+        height: 100% !important;
+        padding: 20px 28px 20px 12px !important;
+        overflow: hidden !important;
+        position: relative !important;
+        z-index: 10 !important;
+        /* 위아래 페이드 */
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,
+            black 88%,
+            transparent 100%
+        ) !important;
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,
+            black 88%,
+            transparent 100%
+        ) !important;
+    }
+
+    /* 가로 가사 스크롤 영역 */
+    #np.np-landscape .np-ls-scroll {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: 100% !important;
+        scrollbar-width: none !important;
+        padding: 30px 8px !important;
+    }
+    #np.np-landscape .np-ls-scroll::-webkit-scrollbar { display: none !important; }
+
+    /* 가사 한 줄 — 최대 5줄 정도 보이게 크게 */
+    #np.np-landscape .np-ls-line {
+        font-size: clamp(18px, 2.8vw, 32px) !important;
+        font-weight: 700 !important;
+        line-height: 1.5 !important;
+        color: rgba(255,255,255,0.18) !important;
+        padding: 6px 0 !important;
+        cursor: pointer !important;
+        word-break: keep-all !important;
+        overflow-wrap: break-word !important;
+        transition: color 0.4s cubic-bezier(0.4,0,0.2,1),
+                    filter 0.4s cubic-bezier(0.4,0,0.2,1) !important;
+        will-change: color, filter !important;
+        -webkit-font-smoothing: antialiased !important;
+    }
+    #np.np-landscape .np-ls-line.active {
+        font-size: clamp(20px, 3.2vw, 36px) !important;
+        font-weight: 800 !important;
+        color: rgba(255,255,255,0.97) !important;
+        filter: drop-shadow(0 0 20px rgba(255,255,255,0.18)) !important;
+    }
+    #np.np-landscape .np-ls-line.prev {
+        color: rgba(255,255,255,0.52) !important;
+    }
+    #np.np-landscape .np-ls-line.near {
+        color: rgba(255,255,255,0.26) !important;
+    }
+    #np.np-landscape .np-ls-line:active {
+        color: rgba(255,255,255,0.7) !important;
+    }
+
+    /* 가사 없음 */
+    #np.np-landscape .np-ls-empty {
+        font-size: 13px !important;
+        color: rgba(255,255,255,0.28) !important;
+        text-align: center !important;
+        padding: 40px 0 !important;
+    }
+
+    /* 닫기 버튼 위치 조정 */
+    #np.np-landscape .np-x {
+        top: 12px !important;
+        left: 16px !important;
+        z-index: 30 !important;
+    }
+    #np.np-landscape .np-fs-btn {
+        top: 12px !important;
+        right: 16px !important;
+        z-index: 30 !important;
+    }
+
+    /* 배경 레이어 */
+    #np.np-landscape #np-bg {
+        position: fixed !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        top: 0 !important; left: 0 !important;
+    }
+    #np.np-landscape::before { background: none !important; }
+    #np.np-landscape::after {
+        content: '' !important;
         position: absolute !important;
-        left: 0 !important;
-        bottom: 0 !important;
-        width: 46% !important;
-        padding: 10px 32px 20px !important;
-        background: none !important;
-        box-shadow: none !important;
+        inset: 0 !important;
+        z-index: 2 !important;
+        pointer-events: none !important;
+        background: linear-gradient(
+            to right,
+            rgba(0,0,0,0.06) 0%,
+            rgba(0,0,0,0.18) 35%,
+            rgba(0,0,0,0.58) 56%,
+            rgba(0,0,0,0.80) 100%
+        ) !important;
     }
 
-    #np.fullscreen #np-fs-lyrics {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 54%;
-        height: 100%;
-        display: block;
-        overflow: hidden;
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-        mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-        padding: 0 24px 0 20px;
-        z-index: 10;
-        pointer-events: none;
-    }
-
-    .np-x {
-        top: 12px;
-        left: 16px;
-    }
-
-    /* In landscape NP, panels ← */
-    #np.fullscreen .np-title {
-        font-size: clamp(14px, 1.5vw, 18px);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+    /* 기존 풀스크린(fullscreen 클래스) 관련 재정의 방지 */
+    #np.np-landscape.fullscreen .np-art-area { all: unset !important; }
 }
 
 /* ── Hide unused desktop-only elements ── */
