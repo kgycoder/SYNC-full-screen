@@ -2743,15 +2743,10 @@ function _onOrientationChange() {
     const isLandscape = window.innerWidth > window.innerHeight;
     const np = document.getElementById('np');
     if (!np) return;
+    // np-landscape 모드일 때는 별도 핸들링
+    if (NP_LS.active) return;
     if (isLandscape && np.classList.contains('on')) {
-        np.classList.add('fullscreen');
-        if (LY.lines.length > 0) _buildFsLyrics();
-        // Notify Android to go fullscreen
-        try { window.AndroidBridge.postMessage(JSON.stringify({ type: 'orientation', value: 'landscape' })); } catch {}
-    } else {
-        np.classList.remove('fullscreen');
-        _destroyFsLyrics();
-        try { window.AndroidBridge.postMessage(JSON.stringify({ type: 'orientation', value: 'portrait' })); } catch {}
+        // 전체화면 버튼으로 진입한 게 아닌 경우 무시
     }
 }
 window.addEventListener('resize', _onOrientationChange);
