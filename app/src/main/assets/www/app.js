@@ -2234,6 +2234,8 @@ function _fsApplySlot(el, slot, visible) {
     el.style.filter     = slot.bl > 0 ? `blur(${slot.bl}px)` : 'none';
     el.style.color      = _fsColor(slot.d);
     el.style.fontWeight = _fsFW(slot.d);
+    // font-size는 고정 — CSS에서 지정한 clamp 값 유지
+    el.style.fontSize   = '';
     el.style.transform  = 'none';
 }
 
