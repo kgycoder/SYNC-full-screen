@@ -2877,7 +2877,7 @@ body.overlay-mode #ov-bar-wrap {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 60px 20px 130px 52px !important;
+    padding: 48px 16px 100px 40px !important;
     gap: 0 !important;
     min-height: unset !important;
     z-index: 10;
@@ -2893,8 +2893,8 @@ body.overlay-mode #ov-bar-wrap {
 
 /* 앨범 아트 크기 */
 #np.fullscreen .np-art-shell {
-    width: min(420px, 38vw, 54vh) !important;
-    box-shadow: 0 48px 140px rgba(0,0,0,0.85) !important;
+    width: min(300px, 28vw, 38vh) !important;
+    box-shadow: 0 32px 100px rgba(0,0,0,0.85) !important;
 }
 
 /* 일반모드 가사 패널 숨김 */
@@ -2907,11 +2907,13 @@ body.overlay-mode #ov-bar-wrap {
     position: absolute !important;
     background: none !important;
     box-shadow: none !important;
-    padding: 14px 0 0 0 !important;
+    padding: 10px 0 0 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 8px !important;
+    gap: 6px !important;
     z-index: 15;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 #np.fullscreen .np-info-row {
@@ -2921,14 +2923,14 @@ body.overlay-mode #ov-bar-wrap {
 }
 
 #np.fullscreen .np-title {
-    font-size: clamp(15px,1.45vw,20px);
+    font-size: clamp(13px, 1.2vw, 17px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 #np.fullscreen .np-ch {
-    font-size: clamp(11px,1.05vw,14px);
+    font-size: clamp(10px, 0.9vw, 12px);
 }
 
 #np.fullscreen .np-act {
@@ -2970,14 +2972,13 @@ body.overlay-mode #ov-bar-wrap {
     position: absolute;
     right: 0;
     top: 0;
-    width: 62%;
-    height: 100%; /* 54%→62%: 가사 표시 영역 확장 */
+    width: 58%;
+    height: 100%;
     display: block;
     overflow: hidden;
-    /* 상하 페이드 — mask로 가장자리 자연스럽게 */
-    -webkit-mask-image: linear-gradient( to bottom, transparent 0%, black 10%, black 90%, transparent 100% );
-    mask-image: linear-gradient( to bottom, transparent 0%, black 10%, black 90%, transparent 100% );
-    padding: 0 40px 0 32px; /* 오른쪽 패딩 68→40px 축소 */
+    -webkit-mask-image: linear-gradient( to bottom, transparent 0%, black 12%, black 88%, transparent 100% );
+    mask-image: linear-gradient( to bottom, transparent 0%, black 12%, black 88%, transparent 100% );
+    padding: 0 36px 0 28px;
     z-index: 10;
     pointer-events: none;
 }
@@ -3000,11 +3001,10 @@ body.overlay-mode #ov-bar-wrap {
     position: absolute;
     left: 0;
     right: 0;
-    height: 56px; /* FS_ROW_H와 반드시 일치 */
+    height: 52px; /* FS_ROW_H와 반드시 일치 */
     display: flex;
     align-items: center;
-    /* 긴 가사: font-size를 줄여서 한 줄에 맞춤 — height/layout 변화 없음 */
-    font-size: clamp(17px, 2.1vw, 28px);
+    font-size: clamp(15px, 1.8vw, 24px);
     font-weight: 600;
     line-height: 1.35;
     word-break: keep-all;
