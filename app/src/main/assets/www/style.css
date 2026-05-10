@@ -2877,7 +2877,7 @@ body.overlay-mode #ov-bar-wrap {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 48px 16px 100px 40px !important;
+    padding: 36px 16px 80px 32px !important;
     gap: 0 !important;
     min-height: unset !important;
     z-index: 10;
@@ -2887,14 +2887,14 @@ body.overlay-mode #ov-bar-wrap {
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 60px 20px 130px 52px !important;
+        padding: 44px 16px 100px 36px !important;
         gap: 0 !important;
     }
 
 /* 앨범 아트 크기 */
 #np.fullscreen .np-art-shell {
-    width: min(300px, 28vw, 38vh) !important;
-    box-shadow: 0 32px 100px rgba(0,0,0,0.85) !important;
+    width: min(220px, 22vw, 30vh) !important;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.85) !important;
 }
 
 /* 일반모드 가사 패널 숨김 */
@@ -2923,14 +2923,14 @@ body.overlay-mode #ov-bar-wrap {
 }
 
 #np.fullscreen .np-title {
-    font-size: clamp(13px, 1.2vw, 17px);
+    font-size: clamp(11px, 1.0vw, 14px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 #np.fullscreen .np-ch {
-    font-size: clamp(10px, 0.9vw, 12px);
+    font-size: clamp(9px, 0.75vw, 11px);
 }
 
 #np.fullscreen .np-act {
@@ -2976,8 +2976,9 @@ body.overlay-mode #ov-bar-wrap {
     height: 100%;
     display: block;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient( to bottom, transparent 0%, black 12%, black 88%, transparent 100% );
-    mask-image: linear-gradient( to bottom, transparent 0%, black 12%, black 88%, transparent 100% );
+    /* 5줄만 보이도록 fade 범위 좁힘 (각 줄 52px * 5 = 260px 기준) */
+    -webkit-mask-image: linear-gradient( to bottom, transparent 0%, black 18%, black 82%, transparent 100% );
+    mask-image: linear-gradient( to bottom, transparent 0%, black 18%, black 82%, transparent 100% );
     padding: 0 36px 0 28px;
     z-index: 10;
     pointer-events: none;
@@ -2993,10 +2994,7 @@ body.overlay-mode #ov-bar-wrap {
     will-change: transform; /* 스크롤 translateY GPU 가속 */
 }
 
-/* 각 줄: 절대 위치 고정 행
-   top = i * FS_ROW_H (JS 지정)
-   height = FS_ROW_H (62px) 고정 — layout shift 없음
-   JS가 opacity/filter/transform(scaleX·scaleY)만 변경 → GPU 전담 */
+/* 각 줄: 절대 위치 고정 행 */
 .np-fs-lyric-line {
     position: absolute;
     left: 0;
@@ -3004,7 +3002,8 @@ body.overlay-mode #ov-bar-wrap {
     height: 52px; /* FS_ROW_H와 반드시 일치 */
     display: flex;
     align-items: center;
-    font-size: clamp(15px, 1.8vw, 24px);
+    /* 크기 고정 — active여도 font-size 변화 없음 */
+    font-size: clamp(13px, 1.5vw, 20px);
     font-weight: 600;
     line-height: 1.35;
     word-break: keep-all;
@@ -3016,7 +3015,6 @@ body.overlay-mode #ov-bar-wrap {
     cursor: pointer;
     pointer-events: auto;
     transform-origin: left center;
-    /* opacity/filter/transform 만 transition — 모두 GPU compositor 전담 */
 }
 
 /* 아티스트명 삭제 */
